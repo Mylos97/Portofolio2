@@ -1,9 +1,13 @@
+
+
 import java.util.ArrayList;
 
 public class Vertex implements Comparable<Vertex> {
     private Integer dist = Integer.MAX_VALUE;
     private String name = "";
     private String predessor = "";
+
+    //Every vertex has an arraylist of edges
     private ArrayList<Edge> edges = new ArrayList<>();
 
     public Vertex(String name) {
@@ -15,7 +19,7 @@ public class Vertex implements Comparable<Vertex> {
     public Vertex(Vertex copy){
         name = copy.getName();
 
-        // We don't need to make a new E
+        // We don't need to make a copy of the edgA
         for(Edge e : copy.getEdges()){
             edges.add(e);
         }

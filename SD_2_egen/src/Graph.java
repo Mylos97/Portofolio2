@@ -1,5 +1,6 @@
 import java.util.*;
 
+// Class for the graph
 public class Graph {
     private ArrayList<Vertex> vertices = new ArrayList<>();
     private Random r = new Random();
@@ -26,33 +27,49 @@ public class Graph {
         currentVertex.setDist(0);
         Vertex tempVertex;
 
+
         Q.add(currentVertex);
 
-        //So we can update the vertices
+        /*
+        tempEgdes.addAll(currentVertex.getEdges());
+        Collections.sort(tempEgdes);
+        totalDistance += tempEgdes.get(0).getWeight();
+         */
+
+
+        //Init of the final MST
         for (Vertex v : vertices) {
             Vertex vs = new Vertex("null");
             vs.setPredessor("null");
             visitedVertices.add(vs);
         }
 
+        //We check all vertices
         while (!Q.isEmpty()) {
             currentVertex = Q.poll();
 
 
+
             if (!isVisited(currentVertex, visitedVertices)) {
 
-                tempEgdes.addAll(currentVertex.getEdges());
 
+                //Check all the egdes from that vertices
+                tempEgdes.addAll(currentVertex.getEdges());
                 for (Edge e : tempEgdes) {
+                    //Create a new vertex so we don't update the ones in the vertices list
                     tempVertex = new Vertex(e.getTo());
                     tempVertex.setDist(e.getWeight());
                     tempVertex.setPredessor(currentVertex.getName());
 
                     Q.add(tempVertex);
+
                 }
+
 
                 tempEgdes.clear();
 
+
+                //Update the init arraylist
                 for (Vertex v : visitedVertices) {
                     if (v.getName().equals("null")) {
                         v.setName(currentVertex.getName());
@@ -64,22 +81,23 @@ public class Graph {
 
             }
 
+            //Check if currentvertex is better than a previous one
             updateVertex(currentVertex, visitedVertices);
-
-            loops++;
 
         }
 
         for (Vertex v : visitedVertices) {
-            //System.out.println("Name " + v.getName() + " dist " + v.getDist() + " " + v.getPredessor());
+            System.out.println("Name " + v.getName() + " dist " + v.getDist() + " " + v.getPredessor());
             totalDistance += v.getDist();
         }
 
-        System.out.println("Loops : " + loops + " Totaldistance = " + totalDistance);
+        System.out.println("Loops : " + loops + " Totaldistance = " + totalDistance + " Price = " + totalDistance*100000);
         return totalDistance;
     }
 
 
+
+    //Check if the vertice has been visited
     private boolean isVisited(Vertex v, ArrayList<Vertex> vs) {
 
         for (Vertex o : vs) {
@@ -91,6 +109,7 @@ public class Graph {
         return false;
     }
 
+    //Update the vertex if it's better
     private boolean updateVertex(Vertex tempVertex, ArrayList<Vertex> vs) {
 
         for (Vertex v : vs) {
