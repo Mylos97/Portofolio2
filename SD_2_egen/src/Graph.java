@@ -30,11 +30,12 @@ public class Graph {
 
         Q.add(currentVertex);
 
-        /*
+
+        //Let's not forget the first road
         tempEgdes.addAll(currentVertex.getEdges());
         Collections.sort(tempEgdes);
         totalDistance += tempEgdes.get(0).getWeight();
-         */
+
 
 
         //Init of the final MST
@@ -62,7 +63,6 @@ public class Graph {
                     tempVertex.setPredessor(currentVertex.getName());
 
                     Q.add(tempVertex);
-
                 }
 
 
@@ -75,6 +75,7 @@ public class Graph {
                         v.setName(currentVertex.getName());
                         v.setDist(currentVertex.getDist());
                         v.setPredessor(currentVertex.getPredessor());
+
                         break;
                     }
                 }
@@ -91,7 +92,9 @@ public class Graph {
             totalDistance += v.getDist();
         }
 
-        System.out.println("Loops : " + loops + " Totaldistance = " + totalDistance + " Price = " + totalDistance*100000);
+
+
+        System.out.println("Loops : " + loops + " Totaldistance = " + totalDistance + " Price = " + totalDistance * 100000 + " kr");
         return totalDistance;
     }
 
@@ -121,5 +124,52 @@ public class Graph {
         }
 
         return false;
+    }
+
+
+
+
+    // Another algorithm to check if the answer is correct
+    public int primsV2(){
+        int totaldistance = 0;
+        PriorityQueue<Vertex> Q = new PriorityQueue<>();
+        ArrayList<Vertex> visited = new ArrayList<>();
+        ArrayList<Edge> tempRoads = new ArrayList<>();
+        Vertex currentVertex;
+
+        visited.add(vertices.get(r.nextInt(vertices.size())));
+        Q.add(visited.get(0));
+
+
+
+        while (!Q.isEmpty()){
+            currentVertex = Q.poll();
+
+            //Add the roads going from that vertex
+            tempRoads.addAll(currentVertex.getEdges());
+            //Let's check the lowest roads first
+            Collections.sort(tempRoads);
+
+
+            for(Edge e : tempRoads){
+
+
+                if(!isVisited(e.getTo(),visited)){
+                    //Add that vertex to the queue and the visited list
+                    Q.add(e.getTo());
+                    totaldistance += e.getWeight();
+                    visited.add(e.getTo());
+                    //Restart so we start at the start of the roads again
+
+                    //We use the from and to from edge to print it
+                    System.out.println("Current: " + e.getFrom().getName() + " going to " + e.getTo().getName() + " with distance " + e.getWeight());
+                    break;
+                }
+            }
+
+        }
+
+        System.out.println("We visited all cities and the cost is " + totaldistance * 100000 + " kr.-");
+        return totaldistance;
     }
 }

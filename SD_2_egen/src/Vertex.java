@@ -6,6 +6,7 @@ public class Vertex implements Comparable<Vertex> {
     private Integer dist = Integer.MAX_VALUE;
     private String name = "";
     private String predessor = "";
+    private Edge travelEdge = null;
 
     //Every vertex has an arraylist of edges
     private ArrayList<Edge> edges = new ArrayList<>();
@@ -91,6 +92,10 @@ public class Vertex implements Comparable<Vertex> {
 
     public String getPredessor() {
         return predessor;
+    }
+
+    public void setTravelEdge(Edge e){
+        this.travelEdge = e;
     }
 
 

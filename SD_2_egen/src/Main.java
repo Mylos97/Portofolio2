@@ -6,7 +6,7 @@ public class Main {
         createGraph(g);
 
         g.prims();
-
+        g.primsV2();
     }
 
 

@@ -15,6 +15,8 @@ public class Edge implements Comparable<Edge>{
         return to;
     }
 
+    public Vertex getFrom() {return from;}
+
     public int getWeight() {
         return weight;
     }
